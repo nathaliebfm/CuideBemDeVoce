@@ -8,6 +8,7 @@ import { createStyles, alpha, Theme, makeStyles } from '@material-ui/core/styles
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import { Box } from '@mui/material';
+import './Navbar.css';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -72,38 +73,31 @@ export default function Navbar() {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Toolbar style={{backgroundColor: "#731963", cursor: "pointer"}}>
-          
-          <Typography className={classes.title} variant="h6" noWrap>
-            Cuide Bem de Você
-          </Typography>
-          
+        <Toolbar className="barra">
 
-          <Box display="flex" justifyContent="end" className={classes.title}>
-                        
-                        <Box mx={1} style={{ cursor: "pointer", paddingRight: "1rem"}}>
-                            <Typography variant="h6" color="inherit">
-                                Postagens
-                            </Typography>
-                        </Box>
-                        <Box mx={1} style={{ cursor: "pointer", paddingRight: "1rem"}}>
-                            <Typography variant="h6" color="inherit">
-                                Temas
-                            </Typography>
-                        </Box>
-                        <Box mx={1} style={{ cursor: "pointer", paddingRight: "1rem" }}>
-                            <Typography variant="h6" color="inherit">
-                                Cadastrar Tema
-                            </Typography>
-                        </Box>
-                        <Box mx={1} style={{ cursor: "pointer", paddingRight: "1rem" }}>
-                            <Typography variant="h6" color="inherit">
-                                Sair
-                            </Typography>
-                        </Box>
-                    </Box>
 
-                    <div className={classes.search}>
+          <div>
+            <Typography className= "typo" variant="h6" title="Home">
+              Cuide Bem de Você
+            </Typography>
+          </div>
+
+            <Box className = "textos">
+              <Typography variant="h6" className= "typo">
+                Postagens
+              </Typography>
+              <Typography variant="h6" className= "typo">
+                Temas
+              </Typography>
+              <Typography variant="h6" className= "typo">
+                Cadastrar Tema
+              </Typography>
+              <Typography variant="h6" className= "typo">
+                Sair
+              </Typography>
+
+
+          <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -116,6 +110,7 @@ export default function Navbar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
+          </Box>
 
         </Toolbar>
       </AppBar>
