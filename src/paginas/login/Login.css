@@ -1,0 +1,18 @@
+.fundoLogin {
+    background-image: url();
+    background-repeat: no-repeat;
+    width: 100vh;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    /*Se não colocar isso não aparece a imagem na página*/
+}
+
+
+.text-decorator-none {
+    text-decoration: none;
+}
+
+.textos1{
+    font-weight: bold !important;
+}

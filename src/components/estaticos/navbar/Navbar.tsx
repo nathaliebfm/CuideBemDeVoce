@@ -9,6 +9,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import { Box } from '@mui/material';
 import './Navbar.css';
+import { Link } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -77,39 +79,42 @@ export default function Navbar() {
 
 
           <div>
-            <Typography className= "typo" variant="h6" title="Home">
+            <Typography className="typo" variant="h6" title="Home">
               Cuide Bem de Você
             </Typography>
           </div>
 
-            <Box className = "textos">
-              <Typography variant="h6" className= "typo">
-                Postagens
-              </Typography>
-              <Typography variant="h6" className= "typo">
-                Temas
-              </Typography>
-              <Typography variant="h6" className= "typo">
-                Cadastrar Tema
-              </Typography>
-              <Typography variant="h6" className= "typo">
+          <Box className="textos">
+            <Typography variant="h6" className="typo">
+              Postagens
+            </Typography>
+            <Typography variant="h6" className="typo">
+              Temas
+            </Typography>
+            <Typography variant="h6" className="typo">
+              Cadastrar Tema
+            </Typography>
+            <Link to="/login" className="text-decorator-none">
+              <Typography variant="h6" className="typo">
                 Sair
               </Typography>
+            </Link>
 
 
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+              />
             </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
           </Box>
 
         </Toolbar>
