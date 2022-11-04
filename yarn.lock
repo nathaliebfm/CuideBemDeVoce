@@ -4213,6 +4213,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:0.21.4":
+  version: 0.21.4
+  resolution: "axios@npm:0.21.4"
+  dependencies:
+    follow-redirects: ^1.14.0
+  checksum: 44245f24ac971e7458f3120c92f9d66d1fc695e8b97019139de5b0cc65d9b8104647db01e5f46917728edfc0cfd88eb30fc4c55e6053eef4ace76768ce95ff3c
+  languageName: node
+  linkType: hard
+
 "axobject-query@npm:^2.2.0":
   version: 2.2.0
   resolution: "axobject-query@npm:2.2.0"
@@ -5411,10 +5420,12 @@ __metadata:
     "@types/node": ^16.18.2
     "@types/react": ^17
     "@types/react-dom": ^17
+    axios: 0.21.4
     react: ^17
     react-dom: ^17
     react-router-dom: 6
     react-scripts: 5.0.1
+    react-use-localstorage: 3.5.3
     typescript: ^4.8.4
     web-vitals: ^2.1.4
   languageName: unknown
@@ -6729,7 +6740,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.0.0":
+"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.0":
   version: 1.15.2
   resolution: "follow-redirects@npm:1.15.2"
   peerDependenciesMeta:
@@ -11258,6 +11269,15 @@ __metadata:
     react: ">=16.6.0"
     react-dom: ">=16.6.0"
   checksum: 75602840106aa9c6545149d6d7ae1502fb7b7abadcce70a6954c4b64a438ff1cd16fc77a0a1e5197cdd72da398f39eb929ea06f9005c45b132ed34e056ebdeb1
+  languageName: node
+  linkType: hard
+
+"react-use-localstorage@npm:3.5.3":
+  version: 3.5.3
+  resolution: "react-use-localstorage@npm:3.5.3"
+  peerDependencies:
+    react: ">=16.8.1"
+  checksum: e06b8edddba52b6e03d4fd08eac0eaf11a895a651f7724e16ce77b49880af53937b3566fec2cb376cc8111c3857447110edffad85bf31b81c9611331cb9f44d2
   languageName: node
   linkType: hard
 

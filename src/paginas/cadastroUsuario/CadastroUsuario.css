@@ -1,0 +1,17 @@
+.imagem2 {
+    background-image: url();
+    background-repeat: no-repeat;
+    width: 100vh;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    /*Se não colocar isso não aparece a imagem na página*/
+}
+
+.textos2{
+    font-weight: bold !important;
+}
+
+.btnCancelar{
+    margin-right: 1vw !important;
+}
