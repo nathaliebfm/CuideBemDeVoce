@@ -29,10 +29,10 @@ function Login() {
     } //atualiza a model com os dados de input do usuário
 
     useEffect(() => {
-        if (token != "") {
+        if (token !== "") {
             navigate("/home")
         }
-    }, [token]) /*Redireciona o usuário para a Home se o token for diferente de vazio, ou seja, se ele existir */
+    }, [navigate, token]) /*Redireciona o usuário para a Home se o token for diferente de vazio, ou seja, se ele existir */
 
     async function onSubmit(event: ChangeEvent<HTMLFormElement>) {
         event.preventDefault();

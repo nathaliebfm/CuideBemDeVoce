@@ -73,6 +73,7 @@ function CadastroUsuario() {
                             name="nome"
                             fullWidth
                             margin="normal"
+                            required
                             variant="outlined" />
                         <TextField
                             value={user.usuario}
@@ -80,6 +81,17 @@ function CadastroUsuario() {
                             id="usuario"
                             label="Usuário (e-mail)"
                             name="usuario"
+                            fullWidth
+                            margin="normal"
+                            required
+                            placeholder="Digite um e-mail válido"
+                            variant="outlined" />
+                        <TextField
+                            value={user.foto}
+                            onChange={(event: ChangeEvent<HTMLInputElement>) => updateModel(event)}
+                            id="foto"
+                            label="URL da Foto de Perfil"
+                            name="foto"
                             fullWidth
                             margin="normal"
                             variant="outlined" />
@@ -92,6 +104,8 @@ function CadastroUsuario() {
                             type="password"
                             fullWidth
                             margin="normal"
+                            required
+                            placeholder="Digite pelo menos 8 caracteres"
                             variant="outlined" />
                         <TextField
                             value={confirmarSenha}
@@ -102,6 +116,7 @@ function CadastroUsuario() {
                             type="password"
                             fullWidth
                             margin="normal"
+                            required
                             variant="outlined" />
                         <Box marginTop={2} textAlign="center">
                             <Link to="/login" className="text-decorator-none">
