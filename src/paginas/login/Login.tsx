@@ -25,7 +25,6 @@ function Login() {
             ...userLogin,
             [event.target.name]: event.target.value
         });
-        console.log(userLogin);
     } //atualiza a model com os dados de input do usuário
 
     useEffect(() => {
@@ -47,7 +46,7 @@ function Login() {
 
     return (
         <>
-            <Grid container direction="row" alignItems="center" justifyContent="center">
+            <Grid container direction="row" alignItems="center" justifyContent="center"  style={{backgroundColor: "#FDFBF7"}}>
                 <Grid item xs={6}>
                     <Box paddingX={20}>
                         <form onSubmit={onSubmit}>

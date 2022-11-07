@@ -1,69 +1,91 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
-import React, { useState, useEffect, ChangeEvent } from "react";
-import { Link } from "react-router-dom";
-import "./CadastroUsuario.css";
-import { cadastroUsuario } from '../../service/Service';
+import { Box, Button, Grid, TextField } from '@mui/material';
+import React, { ChangeEvent, useState, useEffect } from 'react';
+import './CadastroUsuario.css';
+import { Typography } from '@material-ui/core';
+import { Link, useNavigate } from 'react-router-dom';
 import User from '../../model/User';
-import { useNavigate } from 'react-router-dom';
+import { cadastroUsuario } from '../../service/Service';
 
 function CadastroUsuario() {
 
-    let navigate = useNavigate();
-    const [confirmarSenha, setConfirmarSenha] = useState<String>("")
-    const [user, setUser] = useState<User>(
-        {
-            id: 0,
-            nome: "",
-            usuario: "",
-            senha: "",
-            foto: ""
-        })
+    let history = useNavigate();
+    // state reservado para pegar apenas o campo de confirmação de senha, que não irá para o backend
+  const [confirmarSenha, setConfirmarSenha] = useState<string>('');
 
-    const [userResult, setUserResult] = useState<User>(
-        {
-            id: 0,
-            nome: "",
-            usuario: "",
-            senha: "",
-            foto: ""
-        })
+  // função para atualizar o campo de confirmação de senha
+  function confirmarSenhaHandle(e: ChangeEvent<HTMLInputElement>) {
+    setConfirmarSenha(e.target.value);
+  }
 
-    useEffect(() => {
-        if (userResult.id != 0) {
-            navigate("/login")
-        }
-    }, [navigate, userResult])
+  // oneWay data-binding
 
+  // state que vai levar os dados para o backend
+  const [user, setUser] = useState<User>({
+    id: 0,
+    nome: '',
+    usuario: '',
+    senha: '',
+    foto: '',
+  });
 
-    function confirmarSenhaHandle(e: ChangeEvent<HTMLInputElement>) {
-        setConfirmarSenha(e.target.value)
+  // state que recebera os dados de retorno do backend (devido a senha que volta criptografada)
+  const [userResult, setUserResult] = useState<User>({
+    id: 0,
+    nome: '',
+    usuario: '',
+    senha: '',
+    foto: '',
+  });
+
+  // mesma coisa do componente de Login, função que irá atualizar o state junto com o formulário
+  function updateModel(event: ChangeEvent<HTMLInputElement>) {
+    setUser({
+      ...user,
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  async function cadastrar(event: ChangeEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    // verificação dos campos de senha
+
+    // = => atribuição de valor
+    // == => checa o conteudo
+    // ===  => checa conteudo e tipagem
+
+    // 123 == '123'
+    if (confirmarSenha === user.senha && user.senha.length >= 3) {
+      // caso senhas ok, tenta cadastrar no backend
+      try {
+        await cadastroUsuario('/usuarios/cadastrar', user, setUserResult);
+        alert('Usuário cadastrado com sucesso'); //msg em caso de sucesso
+      } catch (error) {
+        alert('Falha interna ao cadastrar'); //caso de erro no backend, cai aqui
+        console.log(error);
+      }
+    } else {
+      // msg de erro para o caso de não passar no if das senhas
+      alert('As senhas não conferem. Favor verificar novamente');
+
+      setUser({ ...user, senha: '' }); //zerar o campo de senha
+      setConfirmarSenha(''); // zerar o campo de confirmar senha
     }
+  }
 
-
-    function updateModel(e: ChangeEvent<HTMLInputElement>) {
-
-        setUser({
-            ...user,
-            [e.target.name]: e.target.value
-        })
-
+  // assim que receber o ID de retorno do cadastro do backend, redireciona pro Login.
+  useEffect(() => {
+    if (userResult.id !== 0) {
+      history('/login');
     }
-    async function onSubmit(e: ChangeEvent<HTMLFormElement>) {
-        e.preventDefault()
-        if (confirmarSenha == user.senha) {
-            cadastroUsuario(`/usuarios/cadastrar`, user, setUserResult)
-            alert('Usuario cadastrado com sucesso')
-        } else {
-            alert('Dados inconsistentes. Favor verificar as informações de cadastro.')
-        }
-    }
+  }, [history, userResult]);
 
     return (
         <Grid container direction="row" justifyContent="center" alignItems="center">
             <Grid item xs={6} className="imagem2"></Grid>
             <Grid item xs={6} alignItems="center">
                 <Box paddingX={10}>
-                    <form onSubmit={onSubmit}>
+                    <form onSubmit={cadastrar}>
                         <Typography variant="h4" gutterBottom align="center" className="textos2" style={{ color: "#449DD1" }}>Cadastro</Typography>
                         <TextField
                             value={user.nome}

@@ -23,14 +23,14 @@ function ListaTema() {
 
               <Link to="" className="text-decorator-none">
                 <Box mx={1}>
-                  <Button variant="contained" className="marginLeft" size='small' color="primary" >
+                  <Button variant="contained" size='small' style={{ backgroundColor: "#C589E8", color: "white" }}>
                     atualizar
                   </Button>
                 </Box>
               </Link>
               <Link to="" className="text-decorator-none">
                 <Box mx={1}>
-                  <Button variant="contained" size='small' color="secondary">
+                  <Button variant="contained" size='small' style={{ backgroundColor: "#F18F01", color: "white" }}>
                     deletar
                   </Button>
                 </Box>
