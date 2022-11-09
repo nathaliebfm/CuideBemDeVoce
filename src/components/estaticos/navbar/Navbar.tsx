@@ -1,15 +1,14 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import { createStyles, alpha, Theme, makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import { Box } from '@mui/material';
 import './Navbar.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import useLocalStorage from 'react-use-localstorage';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -70,6 +69,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function Navbar() {
+  const [token, setToken] = useLocalStorage("token")
+  let navigate = useNavigate()
+
+  function goLogout(): void {
+    setToken("")
+    alert("Usuário deslogado com sucesso!")
+    navigate("/login")
+  }
   const classes = useStyles();
 
   return (
@@ -80,32 +87,33 @@ export default function Navbar() {
 
           <div>
             <Link to="/home" className='text-decorator-none'>
-            <Typography className="typo" variant="h6" title="Home">
-              Cuide Bem de Você
-            </Typography>
+              <Typography className="typo" variant="h6" title="Home">
+                Cuide Bem de Você
+              </Typography>
             </Link>
           </div>
 
           <Box className="textos">
-          <Link to="/posts" className='text-decorator-none'>
-            <Typography variant="h6" className="typo">
-              Postagens
-            </Typography>
+            <Link to="/posts" className='text-decorator-none'>
+              <Typography variant="h6" className="typo">
+                Postagens
+              </Typography>
             </Link>
             <Link to="/temas" className='text-decorator-none'>
-            <Typography variant="h6" className="typo">
-              Temas
-            </Typography>
+              <Typography variant="h6" className="typo">
+                Temas
+              </Typography>
             </Link>
-            <Typography variant="h6" className="typo">
-              Cadastrar Tema
-            </Typography>
-            <Link to="/login" className="text-decorator-none">
+            <Link to="/formularioTema" className='text-decorator-none'>
+              <Typography variant="h6" className="typo">
+                Cadastrar Tema
+              </Typography>
+            </Link>
+            <Box onClick={goLogout}>
               <Typography variant="h6" className="typo">
                 Sair
               </Typography>
-            </Link>
-
+            </Box>
 
 
             <div className={classes.search}>
