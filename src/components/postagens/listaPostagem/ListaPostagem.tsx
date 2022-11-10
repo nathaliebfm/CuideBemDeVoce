@@ -52,6 +52,9 @@ function ListaPostagem() {
                   {post.texto}
                 </Typography>
                 <Typography variant="body2" component="p">
+                  Postagem feita em: {new Date(Date.parse(post.data)).toLocaleString()}
+                </Typography>
+                <Typography variant="body2" component="p">
                   {post.tema?.descricao}
                 </Typography>
               </CardContent>
