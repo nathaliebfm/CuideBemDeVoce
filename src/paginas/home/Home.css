@@ -1,5 +1,5 @@
 .caixa{
-    background-color: #EFF6FB;
+    background-color: #F1EFF6;
 
 }
 
@@ -14,7 +14,7 @@
 }
 
 .botao{
-    border-color: white !important;
+    border-color: #C589E8 !important;
     background-color: #C589E8 !important;
     color: white !important
 }

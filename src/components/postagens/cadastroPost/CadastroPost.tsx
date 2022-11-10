@@ -12,6 +12,7 @@ function CadastroPost() {
     const { id } = useParams<{ id: string }>();
     const [temas, setTemas] = useState<Tema[]>([])
     const [token, setToken] = useLocalStorage('token');
+    /*Informação fixa fica no LocalStorage, informação temporária para mandar para o back, fica no useState */
 
     useEffect(() => {
         if (token == "") {
@@ -49,7 +50,7 @@ function CadastroPost() {
     }, [id])
 
     async function getTemas() {
-        await busca("/tema", setTemas, {
+        await busca("/temas", setTemas, {
             headers: {
                 'Authorization': token
             }
@@ -101,30 +102,30 @@ function CadastroPost() {
     }
 
     return (
-        <Container maxWidth="sm" className="topo">
+        <Container maxWidth="sm">
             <form onSubmit={onSubmit}>
-                <Typography variant="h4" color="textSecondary" component="h1" align="center" >Cadastro de Postagens:</Typography>
+                <Typography variant="h4" color="textSecondary" component="h1" align="center" >Nova Postagem:</Typography>
                 <TextField value={postagem.titulo} onChange={(e: ChangeEvent<HTMLInputElement>) => updatedPostagem(e)} id="titulo" label="Título" variant="outlined" name="titulo" margin="normal" fullWidth />
-                <TextField value={postagem.texto} onChange={(e: ChangeEvent<HTMLInputElement>) => updatedPostagem(e)} id="texto" label="Texto" name="texto" variant="outlined" margin="normal" fullWidth />
+                <TextField value={postagem.texto} onChange={(e: ChangeEvent<HTMLInputElement>) => updatedPostagem(e)} id="texto" label="Texto" name="texto" variant="outlined" margin="normal" fullWidth multiline minRows={4}/>
 
                 <FormControl >
                     <InputLabel id="demo-simple-select-helper-label">Tema </InputLabel>
                     <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
-                        onChange={(e) => buscaId(`/tema/${e.target.value}`, setTema, {
+                        onChange={(e) => buscaId(`/temas/${e.target.value}`, setTema, {
                             headers: {
                                 'Authorization': token
                             }
                         })}>
                         {
-                            temas.map(tema => (
+                            temas.map((tema) => (
                                 <MenuItem value={tema.id}>{tema.descricao}</MenuItem>
-                            )) /*Cria um menu com todos os itens do array Temas, para que o usuário possa escolher */
+                            )) 
                         }
                     </Select>
                     <FormHelperText>Escolha um tema para a postagem</FormHelperText>
-                    <Button type="submit" variant="contained" color="primary">
+                    <Button type="submit" variant="contained" style={{ backgroundColor: "#449DD1", color: "white" }}>
                         Finalizar
                     </Button>
                 </FormControl>

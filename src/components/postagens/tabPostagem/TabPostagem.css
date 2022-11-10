@@ -1,3 +1,8 @@
 .titulo{
     font-weight: bold;
  }
+
+ .appbar{
+    background-color: #449DD1 !important;
+    color: white !important;
+ }

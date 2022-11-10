@@ -1,3 +1,13 @@
 .text-decorator-none{
     text-decoration: none;
 }
+
+.btnAtualizar{
+    color: white !important;
+    background-color: #C589E8 !important;
+}
+
+.btnDeletar{
+    color: white !important;
+    background-color: #F18F01 !important
+}

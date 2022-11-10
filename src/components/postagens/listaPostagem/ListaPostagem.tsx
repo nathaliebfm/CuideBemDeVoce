@@ -22,7 +22,7 @@ function ListaPostagem() {
   }, [token])
 
   async function getPost() {
-    await busca("/posts", setPosts, {
+    await busca("/postagens", setPosts, {
       headers: {
         'Authorization': token
       }
@@ -60,14 +60,14 @@ function ListaPostagem() {
 
                   <Link to={`/formularioPost/${post.id}`} className="text-decorator-none" >
                     <Box mx={1}>
-                      <Button variant="contained" className="marginLeft" size='small' color="primary" >
+                      <Button variant="contained" size='small' className="btnAtualizar" >
                         atualizar
                       </Button>
                     </Box>
                   </Link>
                   <Link to={`/deletarPost/${post.id}`} className="text-decorator-none">
                     <Box mx={1}>
-                      <Button variant="contained" size='small' color="secondary">
+                      <Button variant="contained" size='small' color="secondary" className="btnDeletar">
                         deletar
                       </Button>
                     </Box>

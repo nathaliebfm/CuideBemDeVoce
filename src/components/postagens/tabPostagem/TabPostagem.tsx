@@ -13,9 +13,9 @@ function TabPostagem() {
     } /*O new value armazena o valor do clique, o qual foi definido no setValue */
   return (
    /*Nesse tabcontext, ao clicar em postagens ou sobre nós, ele vai definir o valor e vai redirecionar para a página escolhida*/ <>
-      <TabContext value={value}> 
-        <AppBar position="static">
-          <Tabs centered indicatorColor="secondary" onChange={handleChange}>
+      <TabContext value={value} > 
+        <AppBar position="static" className="appbar">
+          <Tabs centered onChange={handleChange} style={{color: "C589E8"}}>
             <Tab label="Todas as postagens" value="1"/>
             <Tab label="Sobre-nós" value="2" />
           </Tabs>

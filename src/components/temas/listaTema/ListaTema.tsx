@@ -51,14 +51,14 @@ function ListaTema() {
 
                 <Link to={`/formularioTema/${tema.id}`} className="text-decorator-none">
                   <Box mx={1}>
-                    <Button variant="contained" size='small' style={{ backgroundColor: "#C589E8", color: "white" }}>
+                    <Button variant="contained" size='small' className="btnAtualizar">
                       atualizar
                     </Button>
                   </Box>
                 </Link>
                 <Link to={`/deletarTema/${tema.id}`} className="text-decorator-none">
                   <Box mx={1}>
-                    <Button variant="contained" size='small' style={{ backgroundColor: "#F18F01", color: "white" }}>
+                    <Button variant="contained" size='small' style={{ backgroundColor: "#F18F01", color: "white" }} className="btnDeletar">
                       deletar
                     </Button>
                   </Box>
