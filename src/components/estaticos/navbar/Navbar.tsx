@@ -8,7 +8,10 @@ import SearchIcon from '@material-ui/icons/Search';
 import { Box } from '@mui/material';
 import './Navbar.css';
 import { Link, useNavigate } from 'react-router-dom';
-import useLocalStorage from 'react-use-localstorage';
+import { useDispatch, useSelector } from 'react-redux';
+import { TokenState } from '../../../store/tokens/tokensReducer';
+import { addToken } from '../../../store/tokens/actions';
+import { toast } from 'react-toastify';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -69,70 +72,92 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function Navbar() {
-  const [token, setToken] = useLocalStorage("token")
+  const token = useSelector<TokenState,TokenState["tokens"]>(
+    (state) => state.tokens
+  )
   let navigate = useNavigate()
+  const dispatch = useDispatch()
 
   function goLogout(): void {
-    setToken("")
-    alert("Usuário deslogado com sucesso!")
+    dispatch(addToken(""))
+    toast.info("Usuário deslogado com sucesso!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      theme: "colored",
+      progress: undefined,
+    });
     navigate("/login")
   }
   const classes = useStyles();
 
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar className="barra">
+  var navbarComponent;
+
+  if(token !== ""){
+    navbarComponent = <AppBar position="static">
+    <Toolbar className="barra">
 
 
-          <div>
-            <Link to="/home" className='text-decorator-none'>
-              <Typography className="typo" variant="h6" title="Home">
-                Cuide Bem de Você
-              </Typography>
-            </Link>
+      <div>
+        <Link to="/home" className='text-decorator-none'>
+          <Typography className="typo" variant="h6" title="Home">
+            Cuide Bem de Você
+          </Typography>
+        </Link>
+      </div>
+
+      <Box className="textos">
+        <Link to="/posts" className='text-decorator-none'>
+          <Typography variant="h6" className="typo">
+            Postagens
+          </Typography>
+        </Link>
+        <Link to="/temas" className='text-decorator-none'>
+          <Typography variant="h6" className="typo">
+            Temas
+          </Typography>
+        </Link>
+        <Link to="/formularioTema" className='text-decorator-none'>
+          <Typography variant="h6" className="typo">
+            Cadastrar Tema
+          </Typography>
+        </Link>
+        <Box onClick={goLogout}>
+          <Typography variant="h6" className="typo">
+            Sair
+          </Typography>
+        </Box>
+
+
+        <div className={classes.search}>
+          <div className={classes.searchIcon}>
+            <SearchIcon />
           </div>
+          <InputBase
+            placeholder="Search…"
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            inputProps={{ 'aria-label': 'search' }}
+          />
+        </div>
+      </Box>
 
-          <Box className="textos">
-            <Link to="/posts" className='text-decorator-none'>
-              <Typography variant="h6" className="typo">
-                Postagens
-              </Typography>
-            </Link>
-            <Link to="/temas" className='text-decorator-none'>
-              <Typography variant="h6" className="typo">
-                Temas
-              </Typography>
-            </Link>
-            <Link to="/formularioTema" className='text-decorator-none'>
-              <Typography variant="h6" className="typo">
-                Cadastrar Tema
-              </Typography>
-            </Link>
-            <Box onClick={goLogout}>
-              <Typography variant="h6" className="typo">
-                Sair
-              </Typography>
-            </Box>
+    </Toolbar>
+  </AppBar>
+  }
 
-
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </div>
-          </Box>
-
-        </Toolbar>
-      </AppBar>
-    </div>
+  return (
+    <>
+      {navbarComponent}
+    </>
   );
+}
+
+function setToken(arg0: string) {
+  throw new Error('Function not implemented.');
 }

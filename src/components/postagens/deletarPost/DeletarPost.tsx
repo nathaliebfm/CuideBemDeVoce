@@ -2,20 +2,33 @@ import React, { useEffect, useState } from 'react'
 import {Typography, Button, Card, CardActions, CardContent } from "@material-ui/core"
 import './DeletarPost.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import useLocalStorage from 'react-use-localstorage';
 import Postagem from '../../../model/Postagem';
 import { buscaId, deleteId } from '../../../service/Service';
 import { Box } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { TokenState } from '../../../store/tokens/tokensReducer';
+import { toast } from 'react-toastify';
 
 function DeletarPostagem() {
     let navigate = useNavigate();
     const { id } = useParams<{id: string}>();
-    const [token, setToken] = useLocalStorage('token');
+    const token = useSelector<TokenState,TokenState["tokens"]>(
+      (state) => state.tokens
+    )
     const [post, setPosts] = useState<Postagem>()
 
     useEffect(() => {
         if (token == "") {
-            alert("Você precisa estar logado")
+          toast.error("Você precisa estar logado!", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+            theme: "colored",
+            progress: undefined,
+          });
             navigate("/login")
     
         }
@@ -42,7 +55,16 @@ function DeletarPostagem() {
                 'Authorization': token
               }
             });
-            alert('Postagem deletada com sucesso');
+            toast.warning("Postagem deletada com sucesso!", {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: false,
+              theme: "colored",
+              progress: undefined,
+            });
           }
         
           function nao() {
@@ -55,7 +77,7 @@ function DeletarPostagem() {
           <CardContent>
             <Box justifyContent="center">
               <Typography color="textSecondary" gutterBottom>
-                Deseja deletar a Postagem:
+                Deseja deletar a Postagem?
               </Typography>
               <Typography color="textSecondary" >
               {post?.titulo}

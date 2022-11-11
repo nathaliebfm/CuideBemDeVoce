@@ -1,25 +1,39 @@
 
 import React, { useEffect } from "react";
-import { Button, ButtonBaseActions} from "@material-ui/core"
+import { Button, ButtonBaseActions } from "@material-ui/core"
 import "./Home.css";
 import { Box, Grid, Typography } from "@mui/material";
 import TabPostagem from "../../components/postagens/tabPostagem/TabPostagem";
 import ModalPostagem from "../../components/postagens/modalPost/ModalPost";
-import { useNavigate } from "react-router-dom";
-import useLocalStorage from "react-use-localstorage";
+import { useNavigate, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { TokenState } from "../../store/tokens/tokensReducer";
+import { toast } from "react-toastify";
 
 function Home() {
 
     let navigate = useNavigate();
-    const [token, setToken] = useLocalStorage('token');
-    
+
+    const token = useSelector<TokenState, TokenState["tokens"]>(
+        (state) => state.tokens
+    )
+
     useEffect(() => {
-      if (token == "") {
-          alert("Você precisa estar logado")
-          navigate("/login")
-  
-      }
-  }, [token])
+        if (token == "") {
+            toast.error("Você precisa estar logado para ter acesso!", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                theme: "colored",
+                progress: undefined,
+              });
+            navigate("/login")
+
+        }
+    }, [token])
 
     return (
         <>
@@ -33,7 +47,9 @@ function Home() {
                         <Box marginRight={1}>
                             <ModalPostagem />
                         </Box>
-                        <Button variant="outlined" className="botao">Ver Postagens</Button>
+                        <Link to="/posts" className='text-decorator-none'>
+                            <Button variant="outlined" className="botao">Ver Postagens</Button>
+                        </Link>
                     </Box>
                 </Grid>
                 <Grid item xs={6} >

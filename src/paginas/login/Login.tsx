@@ -2,15 +2,20 @@ import { Button, Grid, TextField, Typography } from "@material-ui/core";
 import { Box } from "@mui/material";
 import React, { ChangeEvent, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import useLocalStorage from "react-use-localstorage";
 import { login } from "../../service/Service";
 import UserLogin from "../../model/UserLogin";
 import './Login.css'
+import { useDispatch } from "react-redux";
+import { addToken } from "../../store/tokens/actions";
+import { toast } from "react-toastify";
 
 function Login() {
 
     let navigate = useNavigate();
-    const [token, setToken] = useLocalStorage("token");
+    // const [token, setToken] = useLocalStorage("token");
+    //Nova const depois do Redux:
+    const [token, setToken] = useState("")
+    const dispatch = useDispatch()
     const [userLogin, setUserLogin] = useState<UserLogin>({
         id: 0,
         nome: "",
@@ -27,8 +32,11 @@ function Login() {
         });
     } //atualiza a model com os dados de input do usuário
 
+    //Novo método de login com o Redux
+
     useEffect(() => {
         if (token !== "") {
+            dispatch(addToken(token))
             navigate("/home")
         }
     }, [navigate, token]) /*Redireciona o usuário para a Home se o token for diferente de vazio, ou seja, se ele existir */
@@ -38,9 +46,27 @@ function Login() {
         try {
             await login("/usuarios/logar", userLogin, setToken)
 
-            alert("Usuário logado com sucesso!")
+            toast.success("Usuário logado com sucesso!", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                theme: "colored",
+                progress: undefined,
+              });
         } catch (error) {
-            alert("Dados incorretos. Erro ao logar!")
+            toast.error("Dados incorretos, erro ao logar!", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                theme: "colored",
+                progress: undefined,
+              });
         }
     }
 

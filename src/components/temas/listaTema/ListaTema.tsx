@@ -4,19 +4,32 @@ import { Card, CardActions, CardContent, Button, Typography } from '@material-ui
 import './ListaTema.css';
 import { Box } from '@mui/material';
 import Tema from '../../../model/Tema';
-import useLocalStorage from 'react-use-localstorage';
 import { busca } from '../../../service/Service';
+import { useSelector } from 'react-redux';
+import { TokenState } from '../../../store/tokens/tokensReducer';
+import { toast } from 'react-toastify';
 
 function ListaTema() {
   const [temas, setTemas] = useState<Tema[]>([])
-  const [token, setToken] = useLocalStorage("token")
+  const token = useSelector<TokenState,TokenState["tokens"]>(
+    (state) => state.tokens
+  )
   let navigate = useNavigate()
 
   /*O useEffect será usado para verificar se o usuário está logado ou não, se o token estiver vazio, 
   ele redireciona para a página de login, senão, ele mostra a lista de temas, conforme solicitado */
   useEffect(() => {
     if (token == "") {
-      alert("Você precisa estar logado")
+      toast.error("Você precisa estar logado!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        theme: "colored",
+        progress: undefined,
+      });
       navigate("/login")
     }
   }, [token])
