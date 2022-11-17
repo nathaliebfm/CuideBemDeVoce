@@ -1,13 +1,13 @@
-import { Button, Grid, TextField, Typography } from "@material-ui/core";
-import { Box } from "@mui/material";
-import React, { ChangeEvent, useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { login } from "../../service/Service";
-import UserLogin from "../../model/UserLogin";
-import './Login.css'
-import { useDispatch } from "react-redux";
-import { addToken } from "../../store/tokens/actions";
-import { toast } from "react-toastify";
+
+import { Grid, Box, Typography, TextField, Button } from '@mui/material';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import UserLogin from '../../model/UserLogin';
+import { login } from '../../service/Service';
+import { addId, addToken } from '../../store/tokens/actions';
+import './Login.css';
 
 function Login() {
 
@@ -25,6 +25,17 @@ function Login() {
         token: ""
     })
 
+    const [respUserLogin, setRespUserLogin] = useState<UserLogin>({
+        id: 0,
+        nome: '',
+        usuario: '',
+        senha: '',
+        foto: '',
+        token: '',
+    });
+
+    //state novo que irá receber o JSON da conexão com o backend
+
     function updateModel(event: ChangeEvent<HTMLInputElement>) {
         setUserLogin({
             ...userLogin,
@@ -34,17 +45,23 @@ function Login() {
 
     //Novo método de login com o Redux
 
+    const [loginForm, setLoginForm] = useState(true)
+
+    const padraoEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     useEffect(() => {
-        if (token !== "") {
-            dispatch(addToken(token))
-            navigate("/home")
+        if(userLogin.usuario.match(padraoEmail) && userLogin.senha.length >= 8) {
+            setLoginForm(false)
+        } else{
+            setLoginForm(true)
         }
-    }, [navigate, token]) /*Redireciona o usuário para a Home se o token for diferente de vazio, ou seja, se ele existir */
+    }, [userLogin])
+
+
 
     async function onSubmit(event: ChangeEvent<HTMLFormElement>) {
         event.preventDefault();
         try {
-            await login("/usuarios/logar", userLogin, setToken)
+            await login("/usuarios/logar", userLogin, setRespUserLogin)
 
             toast.success("Usuário logado com sucesso!", {
                 position: "top-right",
@@ -55,7 +72,7 @@ function Login() {
                 draggable: false,
                 theme: "colored",
                 progress: undefined,
-              });
+            });
         } catch (error) {
             toast.error("Dados incorretos, erro ao logar!", {
                 position: "top-right",
@@ -66,9 +83,24 @@ function Login() {
                 draggable: false,
                 theme: "colored",
                 progress: undefined,
-              });
+            });
         }
     }
+
+    useEffect(() => {
+        if (token !== "") {
+            dispatch(addToken(token))
+            navigate("/home")
+        }
+    }, [navigate, token]) /*Redireciona o usuário para a Home se o token for diferente de vazio, ou seja, se ele existir */
+
+    useEffect(() => {
+        if (respUserLogin.token !== '') {
+            dispatch(addToken(respUserLogin.token))
+            dispatch(addId(respUserLogin.id.toString()))
+            navigate('/home')
+        }
+    }, [respUserLogin.token])
 
     return (
         <>
@@ -99,7 +131,7 @@ function Login() {
                                 margin="normal"
                                 variant="outlined" />
                             <Box marginTop={2} textAlign="center">
-                                <Button type="submit" variant="contained" style={{ backgroundColor: "#C589E8", color: "white" }}>
+                                <Button type="submit" variant="contained" disabled={loginForm} className="loginBtn">
                                     Logar
                                 </Button>
                             </Box>

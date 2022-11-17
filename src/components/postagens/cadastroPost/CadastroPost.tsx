@@ -8,6 +8,7 @@ import { busca, buscaId, post, put } from '../../../service/Service';
 import { useSelector } from 'react-redux';
 import { TokenState } from '../../../store/tokens/tokensReducer';
 import { toast } from 'react-toastify';
+import User from '../../../model/User';
 
 function CadastroPost() {
     let navigate = useNavigate();
@@ -17,6 +18,9 @@ function CadastroPost() {
         (state) => state.tokens
       )
     /*Informação fixa fica no LocalStorage, informação temporária para mandar para o back, fica no useState */
+    const userId = useSelector<TokenState, TokenState["id"]>(
+        (state) => state.id
+    ) //Busca o id dentro do Redux
 
     useEffect(() => {
         if (token == "") {
@@ -45,13 +49,23 @@ function CadastroPost() {
         titulo: "",
         texto: "",
         data: "",
-        tema: null
+        tema: null,
+        usuario: null //linha adicionada para inserir o usuário dono da postagem
     })
+
+    const [user, setUser] = useState<User>({
+        id: +userId,
+        nome: "",
+        usuario: "",
+        senha: "",
+        foto:"",
+    }) //essa State serve para controlar o usuário autor da postagem, o + antes do userID transforma o id que está como string no Redux, em um número
 
     useEffect(() => { 
         setPostagem({
             ...postagem,
-            tema: tema
+            tema: tema,
+            usuario: user //Adiciona o usuário dentro da postagem para o backend
         })
     }, [tema])
 
@@ -156,9 +170,7 @@ function CadastroPost() {
                         }
                     </Select>
                     <FormHelperText>Escolha um tema para a postagem</FormHelperText>
-                    <Button type="submit" variant="contained" disabled={tema.id === 0} style={{ backgroundColor: "#449DD1", color: "white" }}>
-                        Finalizar
-                    </Button>
+                    <Button type='submit' variant='contained' color='primary' disabled={tema.id === 0}>Finalizar</Button>
                 </FormControl>
             </form>
         </Container>

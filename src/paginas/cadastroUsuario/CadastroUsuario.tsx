@@ -9,8 +9,8 @@ import { toast } from 'react-toastify';
 
 function CadastroUsuario() {
 
-    let history = useNavigate();
-    // state reservado para pegar apenas o campo de confirmação de senha, que não irá para o backend
+  let navigate = useNavigate();
+  // state reservado para pegar apenas o campo de confirmação de senha, que não irá para o backend
   const [confirmarSenha, setConfirmarSenha] = useState<string>('');
 
   // função para atualizar o campo de confirmação de senha
@@ -104,87 +104,107 @@ function CadastroUsuario() {
   // assim que receber o ID de retorno do cadastro do backend, redireciona pro Login.
   useEffect(() => {
     if (userResult.id !== 0) {
-      history('/login');
+      navigate('/login');
     }
-  }, [history, userResult]);
+  }, [navigate, userResult]);
 
-    return (
-        <Grid container direction="row" justifyContent="center" alignItems="center" className="fundo">
-            <Grid item xs={6} className="imagem2"></Grid>
-            <Grid item xs={6} alignItems="center">
-                <Box paddingX={10}>
-                    <form onSubmit={cadastrar}>
-                        <Typography variant="h4" gutterBottom align="center" className="textos2" style={{ color: "#449DD1" }}>Cadastro</Typography>
-                        <TextField
-                            value={user.nome}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) => updateModel(event)}
-                            id="nome"
-                            label="Nome"
-                            name="nome"
-                            fullWidth
-                            margin="normal"
-                            required
-                            variant="outlined" />
-                        <TextField
-                            value={user.usuario}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) => updateModel(event)}
-                            id="usuario"
-                            label="Usuário (e-mail)"
-                            name="usuario"
-                            fullWidth
-                            margin="normal"
-                            required
-                            placeholder="Digite um e-mail válido"
-                            variant="outlined" />
-                        <TextField
-                            value={user.foto}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) => updateModel(event)}
-                            id="foto"
-                            label="URL da Foto de Perfil"
-                            name="foto"
-                            fullWidth
-                            margin="normal"
-                            variant="outlined" />
-                        <TextField
-                            value={user.senha}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) => updateModel(event)}
-                            id="senha"
-                            label="Senha"
-                            name="senha"
-                            type="password"
-                            fullWidth
-                            margin="normal"
-                            required
-                            placeholder="Digite pelo menos 8 caracteres"
-                            variant="outlined" />
-                        <TextField
-                            value={confirmarSenha}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) => confirmarSenhaHandle(event)}
-                            id="confirmarSenha"
-                            label="Confirmar Senha"
-                            name="confirmarSenha"
-                            type="password"
-                            fullWidth
-                            margin="normal"
-                            required
-                            variant="outlined" />
-                        <Box marginTop={2} textAlign="center">
-                            <Link to="/login" className="text-decorator-none">
-                                <Button variant="contained" className="btnCancelar" style={{ backgroundColor: "#F18F01", color: "white" }}>
-                                    Cancelar
-                                </Button>
-                            </Link>
-                            <Button type="submit" variant="contained" style={{ backgroundColor: "#C589E8", color: "white" }}>
-                                Cadastrar
-                            </Button>
-                        </Box>
-                    </form>
-                </Box>
-            </Grid>
+  //Verificação de campos do formulário para liberar o botão
+
+  const [formCadastro, setFormCadastro] = useState(true)
+
+  //Regex do padrão de senha: letras maiúsculas e minúsculas + números, com no mínimo 8 caracteres
+
+  const padraoSenha = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8,})$/
+
+  //Regex do padrão de email
+
+  const padraoEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+  useEffect(() => {
+    if (user.nome.length >= 2 && user.usuario.match(padraoEmail) && user.senha.match(padraoSenha)) {
+      setFormCadastro(false)
+    } else {
+      setFormCadastro(true)
+    }
+  }, [user])
+
+  return (
+    <Grid container direction="row" justifyContent="center" alignItems="center" className="fundo">
+      <Grid item xs={6} className="fundoCadastro"></Grid>
+      <Grid item xs={6} alignItems="center">
+        <Box paddingX={10}>
+          <form onSubmit={cadastrar}>
+            <Typography variant="h4" gutterBottom align="center" className="textos2" style={{ color: "#449DD1" }}>Cadastro</Typography>
+            <TextField
+              value={user.nome}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => updateModel(event)}
+              id="nome"
+              label="Nome"
+              name="nome"
+              fullWidth
+              margin="normal"
+              required
+              variant="outlined" />
+            <TextField
+              value={user.usuario}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => updateModel(event)}
+              id="usuario"
+              label="Usuário (e-mail)"
+              name="usuario"
+              fullWidth
+              margin="normal"
+              required
+              placeholder="Digite um e-mail válido"
+              variant="outlined" />
+            <TextField
+              value={user.foto}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => updateModel(event)}
+              id="foto"
+              label="URL da Foto de Perfil"
+              name="foto"
+              fullWidth
+              margin="normal"
+              variant="outlined" />
+            <TextField
+              value={user.senha}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => updateModel(event)}
+              id="senha"
+              label="Senha"
+              name="senha"
+              type="password"
+              fullWidth
+              margin="normal"
+              required
+              placeholder="8 caracteres, número e letras maiúsculas e minúsculas"
+              variant="outlined" />
+            <TextField
+              value={confirmarSenha}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => confirmarSenhaHandle(event)}
+              id="confirmarSenha"
+              label="Confirmar Senha"
+              name="confirmarSenha"
+              type="password"
+              fullWidth
+              margin="normal"
+              required
+              variant="outlined" />
+            <Box marginTop={2} textAlign="center">
+              <Link to="/login" className="text-decorator-none">
+                <Button variant="contained" className="btnCancelar" style={{ backgroundColor: "#F18F01", color: "white" }}>
+                  Cancelar
+                </Button>
+              </Link>
+              <Button type="submit" variant="contained" className="cadastroBtn" disabled={formCadastro}>
+                Cadastrar
+              </Button>
+            </Box>
+          </form>
+        </Box>
+      </Grid>
 
 
-        </Grid>
-    );
+    </Grid>
+  );
 }
 
 export default CadastroUsuario;

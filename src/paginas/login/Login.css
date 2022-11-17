@@ -21,3 +21,12 @@
 .fundo{
     background-color: #FDFBF7;
 }
+
+.loginBtn{
+    background-color: #C589E8 !important;
+    color: white
+}
+
+.loginBtn:disabled{
+    background-color: lightgray !important;
+}

@@ -12,9 +12,10 @@ export const cadastroUsuario = async(url: any, dados: any, setDados: any) => {
 /* => Cria uma função sem nome (arrow function)*/ 
 export const login = async(url: any, dados: any, setDados: any) => {
     const resposta = await api.post(url, dados)
-    setDados(resposta.data.token)
+    setDados(resposta.data)
 }
 /*Como o back demora para enviar essa informação, temos que criar a função assíncrona para o front esperar*/
+// Antes o set dados pegava só o token, agora pedimod para ele pegar o JSON inteiro, assim temos acesso tanto ao token, quanto ao ID
 
 /*A busca é um get, então não serão passados dados, só recebe dados. Além disso, precisamos colocar o token no header, como no insomnia*/
 export const busca = async (url: any, setDados: any, header: any) => {

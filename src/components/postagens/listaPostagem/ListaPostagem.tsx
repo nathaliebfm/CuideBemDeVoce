@@ -16,7 +16,7 @@ function ListaPostagem() {
   // const [token, setToken] = useLocalStorage('token');
   let navigate = useNavigate();
 
-  const token = useSelector<TokenState,TokenState["tokens"]>(
+  const token = useSelector<TokenState, TokenState["tokens"]>(
     (state) => state.tokens
   )
 
@@ -53,50 +53,62 @@ function ListaPostagem() {
 
   return (
     <>
-      {
-        posts.map(post => (
-          <Box m={2} >
-            <Card variant="outlined">
-              <CardContent>
-                <Typography color="textSecondary" gutterBottom>
-                  Postagens
-                </Typography>
-                <Typography variant="h5" component="h2">
-                  {post.titulo}
-                </Typography>
-                <Typography variant="body2" component="p">
-                  {post.texto}
-                </Typography>
-                <Typography variant="body2" component="p">
-                  Postagem feita em: {new Date(Date.parse(post.data)).toLocaleString()}
-                </Typography>
-                <Typography variant="body2" component="p">
-                  {post.tema?.descricao}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Box display="flex" justifyContent="center" mb={1.5}>
+      {posts.length === 0 && <div className="preloader-inner">
+        <span className="dot"></span>
+        <div className="dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>}
 
-                  <Link to={`/formularioPost/${post.id}`} className="text-decorator-none" >
-                    <Box mx={1}>
-                      <Button variant="contained" size='small' className="btnAtualizar" >
-                        atualizar
-                      </Button>
-                    </Box>
-                  </Link>
-                  <Link to={`/deletarPost/${post.id}`} className="text-decorator-none">
-                    <Box mx={1}>
-                      <Button variant="contained" size='small' color="secondary" className="btnDeletar">
-                        deletar
-                      </Button>
-                    </Box>
-                  </Link>
-                </Box>
-              </CardActions>
-            </Card>
+{
+  posts.map(post => (
+    <Box m={2} >
+      <Card variant="outlined">
+        <CardContent>
+          <Typography color="textSecondary" gutterBottom>
+            Postagens
+          </Typography>
+          <Typography variant="h5" component="h2">
+            {post.titulo}
+          </Typography>
+          <Typography variant="body2" component="p">
+            {post.texto}
+          </Typography>
+          <Typography variant="body2" component="p">
+            Postagem feita em: {new Date(Date.parse(post.data)).toLocaleString()}
+          </Typography>
+          <Typography variant="body2" component="p">
+            {post.tema?.descricao}
+          </Typography>
+          <Typography>
+            Postado por: {post.usuario?.nome}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Box display="flex" justifyContent="center" mb={1.5}>
+
+            <Link to={`/formularioPost/${post.id}`} className="text-decorator-none" >
+              <Box mx={1}>
+                <Button variant="contained" size='small' className="btnAtualizar" >
+                  atualizar
+                </Button>
+              </Box>
+            </Link>
+            <Link to={`/deletarPost/${post.id}`} className="text-decorator-none">
+              <Box mx={1}>
+                <Button variant="contained" size='small' color="secondary" className="btnDeletar">
+                  deletar
+                </Button>
+              </Box>
+            </Link>
           </Box>
-        ))
-      }
+        </CardActions>
+      </Card>
+    </Box>
+  ))
+}
     </>
   )
 }
