@@ -2,6 +2,15 @@
     text-decoration: none;
 }
 
+.containerLista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 1rem;
+  width: 96%;
+  margin: 0 auto;
+}
+
 .js-preloader {
     /* You must change postion:relative; for position:fixed;  */
     position: fixed;
